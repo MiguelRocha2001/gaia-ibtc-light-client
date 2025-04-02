@@ -62,6 +62,8 @@ import (
 
 	"github.com/cosmos/gaia/v23/x/metaprotocols"
 	metaprotocolstypes "github.com/cosmos/gaia/v23/x/metaprotocols/types"
+
+	ibtclc "github.com/cosmos/gaia/v23/x/ibc/light-clients/09-ibtc"
 )
 
 var maccPerms = map[string][]string{
@@ -86,6 +88,7 @@ func appModules(
 	txConfig client.TxEncodingConfig,
 	skipGenesisInvariants bool,
 	tmLightClientModule tendermint.LightClientModule,
+	ibtcLightClientModule ibtclc.LightClientModule,
 ) []module.AppModule {
 	return []module.AppModule{
 		no_valupdates_genutil.NewAppModule(
@@ -120,6 +123,7 @@ func appModules(
 		metaprotocols.NewAppModule(),
 		feemarket.NewAppModule(appCodec, *app.FeeMarketKeeper),
 		tendermint.NewAppModule(tmLightClientModule),
+		ibtclc.NewAppModule(ibtcLightClientModule),
 	}
 }
 

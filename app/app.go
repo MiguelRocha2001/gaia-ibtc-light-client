@@ -74,6 +74,8 @@ import (
 	"github.com/cosmos/gaia/v23/app/keepers"
 	"github.com/cosmos/gaia/v23/app/upgrades"
 	v23 "github.com/cosmos/gaia/v23/app/upgrades/v23"
+
+	ibtclc "github.com/cosmos/gaia/v23/x/ibc/light-clients/09-ibtc"
 )
 
 var (
@@ -206,9 +208,13 @@ func NewGaiaApp(
 	wasmLightClientModule := ibcwasm.NewLightClientModule(app.WasmClientKeeper, clientKeeper.GetStoreProvider())
 	clientKeeper.AddRoute(ibcwasmtypes.ModuleName, &wasmLightClientModule)
 
+	// Create IBC Tendermint Light Client Stack
+	ibtcLightClientModule := ibtclc.NewLightClientModule(appCodec, clientKeeper.GetStoreProvider())
+	clientKeeper.AddRoute(ibctm.ModuleName, &ibtcLightClientModule)
+
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
-	app.mm = module.NewManager(appModules(app, appCodec, txConfig, skipGenesisInvariants, tmLightClientModule)...)
+	app.mm = module.NewManager(appModules(app, appCodec, txConfig, skipGenesisInvariants, tmLightClientModule, ibtcLightClientModule)...)
 	app.ModuleBasics = newBasicManagerFromManager(app)
 
 	enabledSignModes := append([]sigtypes.SignMode(nil), authtx.DefaultSignModes...)
