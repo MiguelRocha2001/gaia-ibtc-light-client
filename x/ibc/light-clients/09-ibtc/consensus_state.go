@@ -31,7 +31,7 @@ func NewConsensusState(
 
 // ClientType returns Tendermint
 func (ConsensusState) ClientType() string {
-	return exported.Tendermint
+	return "09-ibtc"
 }
 
 // GetRoot returns the commitment Root for the specific

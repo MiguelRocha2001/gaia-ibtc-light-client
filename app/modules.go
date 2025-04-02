@@ -12,7 +12,7 @@ import (
 	ibctransfertypes "github.com/cosmos/ibc-go/v10/modules/apps/transfer/types"
 	ibc "github.com/cosmos/ibc-go/v10/modules/core"
 	ibcexported "github.com/cosmos/ibc-go/v10/modules/core/exported"
-	tendermint "github.com/cosmos/ibc-go/v10/modules/light-clients/07-tendermint"
+	/* tendermint "github.com/cosmos/ibc-go/v10/modules/light-clients/07-tendermint" */
 	no_valupdates_genutil "github.com/cosmos/interchain-security/v7/x/ccv/no_valupdates_genutil"
 	no_valupdates_staking "github.com/cosmos/interchain-security/v7/x/ccv/no_valupdates_staking"
 	providertypes "github.com/cosmos/interchain-security/v7/x/ccv/provider/types"
@@ -87,7 +87,7 @@ func appModules(
 	appCodec codec.Codec,
 	txConfig client.TxEncodingConfig,
 	skipGenesisInvariants bool,
-	tmLightClientModule tendermint.LightClientModule,
+	/* tmLightClientModule tendermint.LightClientModule, */
 	ibtcLightClientModule ibtclc.LightClientModule,
 ) []module.AppModule {
 	return []module.AppModule{
@@ -122,7 +122,7 @@ func appModules(
 		app.ProviderModule,
 		metaprotocols.NewAppModule(),
 		feemarket.NewAppModule(appCodec, *app.FeeMarketKeeper),
-		tendermint.NewAppModule(tmLightClientModule),
+		/* tendermint.NewAppModule(tmLightClientModule), */
 		ibtclc.NewAppModule(ibtcLightClientModule),
 	}
 }

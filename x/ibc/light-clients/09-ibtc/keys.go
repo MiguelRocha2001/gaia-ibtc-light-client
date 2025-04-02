@@ -1,5 +1,5 @@
 package tendermint
 
 const (
-	ModuleName = "07-tendermint"
+	ModuleName = "09-ibtc"
 )

@@ -22,7 +22,6 @@ import (
 	ibcwasm "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/v10"
 	ibcwasmkeeper "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/v10/keeper"
 	ibcwasmtypes "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/v10/types"
-	ibctm "github.com/cosmos/ibc-go/v10/modules/light-clients/07-tendermint"
 	ibctesting "github.com/cosmos/ibc-go/v10/testing"
 	providertypes "github.com/cosmos/interchain-security/v7/x/ccv/provider/types"
 
@@ -201,20 +200,20 @@ func NewGaiaApp(
 
 	// Create IBC Tendermint Light Client Stack
 	clientKeeper := app.AppKeepers.IBCKeeper.ClientKeeper
-	tmLightClientModule := ibctm.NewLightClientModule(appCodec, clientKeeper.GetStoreProvider())
-	clientKeeper.AddRoute(ibctm.ModuleName, &tmLightClientModule)
+	/* tmLightClientModule := ibctm.NewLightClientModule(appCodec, clientKeeper.GetStoreProvider())
+	clientKeeper.AddRoute(ibctm.ModuleName, &tmLightClientModule) */
 
 	// Create WASM Light Client Stack
 	wasmLightClientModule := ibcwasm.NewLightClientModule(app.WasmClientKeeper, clientKeeper.GetStoreProvider())
 	clientKeeper.AddRoute(ibcwasmtypes.ModuleName, &wasmLightClientModule)
 
-	// Create IBC Tendermint Light Client Stack
+	// Create IBC Ibtc Light Client Stack
 	ibtcLightClientModule := ibtclc.NewLightClientModule(appCodec, clientKeeper.GetStoreProvider())
-	clientKeeper.AddRoute(ibctm.ModuleName, &ibtcLightClientModule)
+	clientKeeper.AddRoute(ibtclc.ModuleName, &ibtcLightClientModule)
 
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
-	app.mm = module.NewManager(appModules(app, appCodec, txConfig, skipGenesisInvariants, tmLightClientModule, ibtcLightClientModule)...)
+	app.mm = module.NewManager(appModules(app, appCodec, txConfig, skipGenesisInvariants /* tmLightClientModule, */, ibtcLightClientModule)...)
 	app.ModuleBasics = newBasicManagerFromManager(app)
 
 	enabledSignModes := append([]sigtypes.SignMode(nil), authtx.DefaultSignModes...)
