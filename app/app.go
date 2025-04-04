@@ -16,6 +16,8 @@ import (
 	tmjson "github.com/cometbft/cometbft/libs/json"
 	tmos "github.com/cometbft/cometbft/libs/os"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
+	
+	ibctm "github.com/cosmos/ibc-go/v10/modules/light-clients/07-tendermint"
 
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/gogoproto/proto"
@@ -200,8 +202,8 @@ func NewGaiaApp(
 
 	// Create IBC Tendermint Light Client Stack
 	clientKeeper := app.AppKeepers.IBCKeeper.ClientKeeper
-	/* tmLightClientModule := ibctm.NewLightClientModule(appCodec, clientKeeper.GetStoreProvider())
-	clientKeeper.AddRoute(ibctm.ModuleName, &tmLightClientModule) */
+	tmLightClientModule := ibctm.NewLightClientModule(appCodec, clientKeeper.GetStoreProvider())
+	clientKeeper.AddRoute(ibctm.ModuleName, &tmLightClientModule)
 
 	// Create WASM Light Client Stack
 	wasmLightClientModule := ibcwasm.NewLightClientModule(app.WasmClientKeeper, clientKeeper.GetStoreProvider())
@@ -213,7 +215,7 @@ func NewGaiaApp(
 
 	// NOTE: Any module instantiated in the module manager that is later modified
 	// must be passed by reference here.
-	app.mm = module.NewManager(appModules(app, appCodec, txConfig, skipGenesisInvariants /* tmLightClientModule, */, ibtcLightClientModule)...)
+	app.mm = module.NewManager(appModules(app, appCodec, txConfig, skipGenesisInvariants, tmLightClientModule, ibtcLightClientModule)...)
 	app.ModuleBasics = newBasicManagerFromManager(app)
 
 	enabledSignModes := append([]sigtypes.SignMode(nil), authtx.DefaultSignModes...)

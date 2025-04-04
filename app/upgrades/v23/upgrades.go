@@ -6,7 +6,7 @@ import (
 	ibtclc "github.com/cosmos/gaia/v23/x/ibc/light-clients/09-ibtc"
 	ibcwasmtypes "github.com/cosmos/ibc-go/modules/light-clients/08-wasm/v10/types"
 
-	/* ibctmtypes "github.com/cosmos/ibc-go/v10/modules/light-clients/07-tendermint" */
+	ibctmtypes "github.com/cosmos/ibc-go/v10/modules/light-clients/07-tendermint"
 
 	errorsmod "cosmossdk.io/errors"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
@@ -59,7 +59,7 @@ func CreateUpgradeHandler(
 		// Set IBC Client AllowedClients
 		ctx.Logger().Info("Setting IBC Client AllowedClients")
 		params := keepers.IBCKeeper.ClientKeeper.GetParams(ctx)
-		params.AllowedClients = []string{ /* ibctmtypes.ModuleName, */ ibcwasmtypes.ModuleName, ibtclc.ModuleName}
+		params.AllowedClients = []string{ ibctmtypes.ModuleName, ibcwasmtypes.ModuleName, ibtclc.ModuleName}
 		keepers.IBCKeeper.ClientKeeper.SetParams(ctx, params)
 
 		ctx.Logger().Info("Running authz ibc wasm client grant")

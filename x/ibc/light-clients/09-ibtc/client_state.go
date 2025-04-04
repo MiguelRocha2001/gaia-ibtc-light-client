@@ -51,7 +51,7 @@ func (cs ClientState) GetChainID() string {
 
 // ClientType is tendermint.
 func (ClientState) ClientType() string {
-	return exported.Tendermint
+	return "09-ibtc"
 }
 
 // getTimestampAtHeight returns the timestamp in nanoseconds of the consensus state at the given height.
