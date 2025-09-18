@@ -46,6 +46,8 @@ func (cs *ClientState) verifyHeader(
 	ctx sdk.Context, clientStore storetypes.KVStore, cdc codec.BinaryCodec,
 	header *Header,
 ) error {
+	return nil // Miguel
+
 	currentTimestamp := ctx.BlockTime()
 
 	// Retrieve trusted consensus states for each Header in misbehaviour

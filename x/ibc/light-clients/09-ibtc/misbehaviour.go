@@ -29,7 +29,7 @@ func NewMisbehaviour(clientID string, header1, header2 *Header) *Misbehaviour {
 
 // ClientType is Tendermint light client
 func (Misbehaviour) ClientType() string {
-	return exported.Tendermint
+	return "09-ibtc"
 }
 
 // GetTime returns the timestamp at which misbehaviour occurred. It uses the

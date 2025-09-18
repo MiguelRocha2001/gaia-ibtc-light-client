@@ -68,6 +68,8 @@ func (l LightClientModule) VerifyClientMessage(ctx sdk.Context, clientID string,
 
 // CheckForMisbehaviour obtains the client state associated with the client identifier and calls into the clientState.CheckForMisbehaviour method.
 func (l LightClientModule) CheckForMisbehaviour(ctx sdk.Context, clientID string, clientMsg exported.ClientMessage) bool {
+	//return false // Miguel
+
 	clientStore := l.storeProvider.ClientStore(ctx, clientID)
 	clientState, found := getClientState(clientStore, l.cdc)
 	if !found {
@@ -79,6 +81,8 @@ func (l LightClientModule) CheckForMisbehaviour(ctx sdk.Context, clientID string
 
 // UpdateStateOnMisbehaviour obtains the client state associated with the client identifier and calls into the clientState.UpdateStateOnMisbehaviour method.
 func (l LightClientModule) UpdateStateOnMisbehaviour(ctx sdk.Context, clientID string, clientMsg exported.ClientMessage) {
+	//return // Miguel
+
 	clientStore := l.storeProvider.ClientStore(ctx, clientID)
 	clientState, found := getClientState(clientStore, l.cdc)
 	if !found {
@@ -140,6 +144,8 @@ func (l LightClientModule) VerifyNonMembership(
 
 // Status obtains the client state associated with the client identifier and calls into the clientState.status method.
 func (l LightClientModule) Status(ctx sdk.Context, clientID string) exported.Status {
+	//return exported.Active // Miguel
+
 	clientStore := l.storeProvider.ClientStore(ctx, clientID)
 	clientState, found := getClientState(clientStore, l.cdc)
 	if !found {
@@ -157,6 +163,8 @@ func (l LightClientModule) LatestHeight(ctx sdk.Context, clientID string) export
 	if !found {
 		return clienttypes.ZeroHeight()
 	}
+
+	//clientState.LatestHeight.RevisionNumber = 0 // Miguel
 
 	return clientState.LatestHeight
 }

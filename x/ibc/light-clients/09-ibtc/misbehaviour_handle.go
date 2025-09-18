@@ -20,6 +20,8 @@ import (
 // CheckForMisbehaviour detects duplicate height misbehaviour and BFT time violation misbehaviour
 // in a submitted Header message and verifies the correctness of a submitted Misbehaviour ClientMessage
 func (ClientState) CheckForMisbehaviour(ctx sdk.Context, cdc codec.BinaryCodec, clientStore storetypes.KVStore, msg exported.ClientMessage) bool {
+	//return false // Miguel
+
 	switch msg := msg.(type) {
 	case *Header:
 		tmHeader := msg
@@ -37,6 +39,7 @@ func (ClientState) CheckForMisbehaviour(ctx sdk.Context, cdc codec.BinaryCodec, 
 
 			// A consensus state already exists for this height, but it does not match the provided header.
 			// The assumption is that Header has already been validated. Thus we can return true as misbehaviour is present
+			//panic(fmt.Sprintf("height: %d, existingConsState: %v, ConsensusState: %v", tmHeader.GetHeight(), existingConsState, tmHeader.ConsensusState()))
 			return true
 		}
 
